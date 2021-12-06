@@ -10,6 +10,7 @@ class NewsModel {
     var title: String
     var description: String
     var image: String
+    var isBanner = false
     
     init(title:String, description:String, image:String) {
         self.title = title

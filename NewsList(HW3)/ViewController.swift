@@ -19,7 +19,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return 160
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(identifier: "NewsDetailViewController")
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if !news[indexPath.row].isBanner {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewsCell", for: indexPath) as! NewsCellTableViewCell
         
         cell.newsTitle.text = news[indexPath.row].title
@@ -28,7 +35,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         cell.newsImage.image = UIImage(named: news[indexPath.row].image)
         
-        return cell
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NewsBanner", for: indexPath) as! NewsBannerCell
+            cell.BannerImage.image = UIImage(named: news[indexPath.row].image)
+            return cell
+        }
     }
     
     @IBAction func RemoveNews(_ sender: Any) {
@@ -40,7 +52,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var newsTableView: UITableView!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
+        let banner = NewsModel(title: "", description: "", image: "Banner")
+        banner.isBanner = true
+        
+        news.append(banner)
+        
         news.append(NewsModel(title: "High school friends get unbelievable surprise after texting the wrong number", description: "A Michigan high school basketball team was organizing team practices when someone accidentally included a wrong number in the group text. What happened next is something they’ll remember for the rest of their lives. ", image: "Lebron"))
         
         news.append(NewsModel(title: "Alan Tudge: Australia minister stood aside over 'abusive' affair allegations", description: "Rachelle Miller alleged that she had experienced bullying and intimidation during her relationship with Education Minister Alan Tudge in 2017. Mr Tudge said he completely and utterly rejected the allegations.", image: "AuMinister"))
@@ -48,6 +67,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         news.append(NewsModel(title: "High school friends get unbelievable surprise after texting the wrong number", description: "A Michigan high school basketball team was organizing team practices when someone accidentally included a wrong number in the group text. What happened next is something they’ll remember for the rest of their lives. ", image: "Lebron"))
         
         news.append(NewsModel(title: "Alan Tudge: Australia minister stood aside over 'abusive' affair allegations", description: "Rachelle Miller alleged that she had experienced bullying and intimidation during her relationship with Education Minister Alan Tudge in 2017. Mr Tudge said he completely and utterly rejected the allegations.", image: "AuMinister"))
+        
         
         news.append(NewsModel(title: "High school friends get unbelievable surprise after texting the wrong number", description: "A Michigan high school basketball team was organizing team practices when someone accidentally included a wrong number in the group text. What happened next is something they’ll remember for the rest of their lives. ", image: "Lebron"))
         
